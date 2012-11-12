@@ -1,0 +1,7 @@
+  PID TTY          TIME CMD
+ 1227 pts/12   00:00:00 bash
+ 1231 pts/12   05:04:56 cyclus
+28638 pts/3    00:00:00 ps
+31432 pts/2    00:00:00 oosplash
+31451 pts/2    00:00:08 soffice.bin
+31530 pts/12   00:00:00 emacs

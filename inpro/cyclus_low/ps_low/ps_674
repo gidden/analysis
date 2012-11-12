@@ -1,0 +1,5 @@
+  PID TTY          TIME CMD
+ 1227 pts/12   00:00:00 bash
+ 1231 pts/12   01:23:58 cyclus
+18089 pts/12   00:00:00 ps
+20066 pts/1    00:00:04 evince
