@@ -5,8 +5,8 @@
 |  from the University of Wisconsin-Madison  |
 |--------------------------------------------|
 
- INFO2(core  ):  Model ID=6, name=natl_u_market has registered to receive 'resolves'.
  INFO2(core  ):  Model ID=7, name=enr_u_market has registered to receive 'resolves'.
+ INFO2(core  ):  Model ID=6, name=natl_u_market has registered to receive 'resolves'.
  INFO2(core  ):  Model ID=8, name=waste_market has registered to receive 'resolves'.
  INFO2(core  ):  Model ID=9, name=SingleRegion has registered to receive 'ticks' and 'tocks'.
  INFO1(core  ):There are 2 models.
@@ -2125,3 +2125,100 @@
  INFO2(core  ):  Current date: 2095-Oct-01 Current time: 1055 {
  INFO2(core  ):  }
  INFO2(core  ):  Current date: 2095-Nov-01 Current time: 1056 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2095-Dec-01 Current time: 1057 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Jan-01 Current time: 1058 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Feb-01 Current time: 1059 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Mar-01 Current time: 1060 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Apr-01 Current time: 1061 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-May-01 Current time: 1062 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Jun-01 Current time: 1063 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Jul-01 Current time: 1064 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Aug-01 Current time: 1065 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Sep-01 Current time: 1066 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Oct-01 Current time: 1067 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Nov-01 Current time: 1068 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2096-Dec-01 Current time: 1069 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Jan-01 Current time: 1070 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Feb-01 Current time: 1071 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Mar-01 Current time: 1072 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Apr-01 Current time: 1073 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-May-01 Current time: 1074 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Jun-01 Current time: 1075 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Jul-01 Current time: 1076 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Aug-01 Current time: 1077 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Sep-01 Current time: 1078 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Oct-01 Current time: 1079 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Nov-01 Current time: 1080 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2097-Dec-01 Current time: 1081 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Jan-01 Current time: 1082 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Feb-01 Current time: 1083 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Mar-01 Current time: 1084 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Apr-01 Current time: 1085 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-May-01 Current time: 1086 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Jun-01 Current time: 1087 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Jul-01 Current time: 1088 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Aug-01 Current time: 1089 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Sep-01 Current time: 1090 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Oct-01 Current time: 1091 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Nov-01 Current time: 1092 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2098-Dec-01 Current time: 1093 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Jan-01 Current time: 1094 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Feb-01 Current time: 1095 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Mar-01 Current time: 1096 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Apr-01 Current time: 1097 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-May-01 Current time: 1098 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Jun-01 Current time: 1099 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Jul-01 Current time: 1100 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Aug-01 Current time: 1101 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Sep-01 Current time: 1102 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Oct-01 Current time: 1103 {
+ INFO2(core  ):  }
+ INFO2(core  ):  Current date: 2099-Nov-01 Current time: 1104 {
+ INFO2(core  ):  }

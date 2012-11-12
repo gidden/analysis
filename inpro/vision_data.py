@@ -62,10 +62,10 @@ def analyze_vision_output(filename):
     #     subtract += used_fuel[year]
     #     used_fuel[year+1] -= subtract
     
-    subtract = 0
-    for year in range(len(natl_u)-1):
-        subtract += natl_u[year]
-        natl_u[year+1] -= subtract
+    # subtract = 0
+    # for year in range(len(swu)-1):
+    #     subtract += swu[year]
+    #     swu[year+1] -= subtract
 
     return VisionOutput(years,lwrs,hwrs,reactors,used_fuel,swu,natl_u)
 
