@@ -57,10 +57,10 @@ def analyze_vision_output(filename):
             dry_fuel =  float(entries[dry_index]) + float(entries[dry_index+1])
             used_fuel.append(wet_fuel+dry_fuel)
     
-    # subtract = 0
-    # for year in range(len(used_fuel)-1):
-    #     subtract += used_fuel[year]
-    #     used_fuel[year+1] -= subtract
+    subtract = 0
+    for year in range(len(used_fuel)-1):
+        subtract += used_fuel[year]
+        used_fuel[year+1] -= subtract
     
     # subtract = 0
     # for year in range(len(swu)-1):

@@ -108,10 +108,17 @@ def get_reactors(nyears,nmonths,offset_month,session):
 
     lwr_years = [0] * nyears
     hwr_years = [0] * nyears
+    lwr_check = 0
+    hwr_check = 0
     for month in range(nmonths-1):
         year = int(math.floor((offset_month+month+1)/12))
+        if month < 4:
+            lwr_check +=  entries[0][month+1] - leaves[0][month]
+            hwr_check +=  entries[1][month+1] - leaves[1][month]
         lwr_years[year] += entries[0][month+1] - leaves[0][month]
         hwr_years[year] += entries[1][month+1] - leaves[1][month]
+    print lwr_check, hwr_check
+    print ""
 
     for year in range(nyears-1):
         lwr_years[year+1] += lwr_years[year]
@@ -124,7 +131,7 @@ def get_used_fuel(nyears,nmonths,offset_month,trans_f,trans_rsrcs_f):
     lines = fin.readlines()
     fin.close()
 
-    check_val = 1.38139
+    # check_val = 1.38139
     tol = 0.001
 
     transactions = {}
@@ -135,8 +142,8 @@ def get_used_fuel(nyears,nmonths,offset_month,trans_f,trans_rsrcs_f):
             entries = line.split(',')
             uid = int(entries[0][1:-1])
             amt = float(entries[4][2:-2])/1e6
-            if abs(amt-check_val) < tol:
-                amt /= 10
+            # if abs(amt-check_val) < tol:
+            #     amt /= 10
             transactions[uid] = amt
 
     fin = open(trans_f,'r')
@@ -158,7 +165,7 @@ def get_used_fuel(nyears,nmonths,offset_month,trans_f,trans_rsrcs_f):
             commodity = entries[4][2:-1]
             if commodity == 'waste':
                 fuel_months[month] += transactions[uid]
-                if int(math.floor((offset_month+month)/12)) == 2:#(34-8):
+                if int(math.floor((offset_month+month)/12)) == 1:#(34-8):
                     if abs(transactions[uid]-lwr_val) < tol:
                         lwr_check += 1
                     elif abs(transactions[uid]-hwr_val) < tol:
@@ -237,8 +244,8 @@ def analyze_cyclus_output(enr_f,trans_f,trans_rsrcs_f,db):
     # used_fuel = get_used_fuel(nyears,nmonths,offset_month,session)
     used_fuel = get_used_fuel(nyears,nmonths,offset_month,trans_f,trans_rsrcs_f)
 
-    for year in range(len(used_fuel)-1):
-        used_fuel[year+1] += used_fuel[year]
+    # for year in range(len(used_fuel)-1):
+    #     used_fuel[year+1] += used_fuel[year]
 
     return CyclusOutput(time,lwrs,hwrs,reactors,used_fuel,swu_years,natl_u_years)
 

@@ -5,7 +5,7 @@ import cyclus_data
 
 import matplotlib.pyplot as plt
 
-handles = ['_low','_high']
+handles = ['_low']#,'_high']
   
 start_year = 2007
 end_year = 2100
@@ -62,15 +62,30 @@ for handle in handles:
     plt.savefig('nat_u'+handle+'.eps')
     plt.clf()
     
+
 ## Waste
-    plt.plot(vision_output.years, vision_output.used_fuel, label="Vision")
-    plt.plot(cyclus_output.years, cyclus_output.used_fuel, label="Cyclus")
-    plt.axis([start_year+2,end_year,min(vision_output.used_fuel[2],cyclus_output.used_fuel[2]),max(cyclus_output.used_fuel[-1],vision_output.used_fuel[-1])])
+    plt.plot(vision_output.years[0:7], vision_output.used_fuel[0:7], label="Vision")
+    plt.plot(cyclus_output.years[0:7], cyclus_output.used_fuel[0:7], label="Cyclus")
+    # plt.axis([start_year+2,end_year,min(vision_output.used_fuel[2],cyclus_output.used_fuel[2]),max(cyclus_output.used_fuel[-1],vision_output.used_fuel[-1])])
+    plt.axis([cyclus_output.years[0],cyclus_output.years[7],min(vision_output.used_fuel[0],cyclus_output.used_fuel[0]),max(cyclus_output.used_fuel[7],vision_output.used_fuel[7])]) 
     plt.legend(loc=2)
     plt.title('Total Cumulative Used Fuel Produced by Reactors')
     plt.xlabel('Year')
     plt.ylabel('Quantity (kt)')
-#    plt.show()
+    plt.show()
     plt.savefig('used_fuel'+handle+'.eps')
     plt.clf()
-    
+    lwr_amt = 18763.983/1e6
+    hwr_amt = 138138.735/1e6
+    print ""
+    lwrs = [cyclus_output.lwrs[0], cyclus_output.lwrs[1], cyclus_output.lwrs[2]]
+    hwrs = [cyclus_output.hwrs[0], cyclus_output.hwrs[1], cyclus_output.hwrs[2]]
+    print lwrs[0], lwrs[1], lwrs[2]
+    print hwrs[0], hwrs[1], hwrs[2]
+    print lwr_amt*353+hwr_amt*38
+    print cyclus_output.used_fuel[0], cyclus_output.used_fuel[1], cyclus_output.used_fuel[2]
+    print vision_output.lwrs[0], vision_output.lwrs[1], vision_output.lwrs[2]
+    print vision_output.hwrs[0], vision_output.hwrs[1], vision_output.hwrs[2]
+    print vision_output.used_fuel[0], vision_output.used_fuel[1], vision_output.used_fuel[2]
+    print ""
+
