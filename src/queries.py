@@ -7,17 +7,19 @@ def agents(session, name):
     search = tbls.Agents.Prototype.like(name)
     return session.query(tbls.Agents).filter(search).all()
 
-def enterDate(session, agentId):
-    """returns the Cyclus date that a specific agent entered the simulation"""
-    search = tbls.Agents.ID.like(agentId)
-    result = session.query(tbls.Agents).filter(search).all()
-    assert len(result) == 1
-    return result[0].EnterDate
+def agentdeaths(session):
+    """returns a list of entries in the AgentDeaths table
+    """
+    return tbls.AgentDeaths
 
-def leaveDate(session, agentId):
+def enterDate(session, agent):
+    """returns the Cyclus date that a specific agent entered the simulation"""
+    return agent.EnterDate
+
+def leaveDate(session, agent, agentdeaths):
     """returns the Cyclus date that a specific agent left the simulation"""
-    search = tbls.AgentDeaths.AgentID.like(agentId)
-    result = session.query(tbls.AgentDeaths).filter(search).all()
+    search = agentdeaths.AgentID.like(agent.ID)
+    result = session.query(agentdeaths).filter(search).all()
     assert len(result) == 1
     return result[0].DeathDate
 
@@ -26,8 +28,8 @@ def nFacs(session, agents, time):
     """
     n = 0
     for agent in agents:
-        if enterDate(session, agent.ID) <= time \
-                and leaveDate(session, agent.ID) > time:
+        if enterDate(session, agent) <= time \
+                and leaveDate(session, agent, agentdeaths(session)) > time:
             n += 1
     return n
             
@@ -36,4 +38,3 @@ def nFacsInRange(session, agents, start, end):
     and ending time step
     """
     return [nFacs(session, agents, start + i) for i in range(end - start)]
-        
