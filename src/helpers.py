@@ -1,5 +1,9 @@
 from copy import copy
 
+from collections import namedtuple
+
+YearPoint = namedtuple("YearPoint", "startMonth endMonth")
+
 def groupItems(theList, groupSize):
     """returns a list of values grouped into increments of groupSize. if the
     length isn't divisible by groupSize, the last group will house the remaining
@@ -36,3 +40,20 @@ def convertValuesMtoY(values):
     """
     split_vals = groupByYear(values)
     return [getYearlyValue(vals) for vals in split_vals]
+
+def getYearPoints(startMonth, endMonth):
+    """given a starting month index and and ending month index, returns a
+    collection of YearPoints covering the span.
+    """
+    start = startMonth
+    points = []
+    while start <= endMonth:
+        end = start + 11
+        if end < endMonth:
+            year = YearPoint(start, end)
+        else:
+            year =YearPoint(start, endMonth)
+        points.append(year)
+        start += 12
+    return points
+                         
