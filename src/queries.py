@@ -1,43 +1,30 @@
 import tables as tbls
 
-def agents(session, name):
-    """returns a list of entries in the Agents table given the name of an
+def qAgents(session, fac_t):
+    """returns a query of entries in the Agents table given the name of an
     Agent's prototype
     """
-    search = tbls.Agents.Prototype == name
-    return session.query(tbls.Agents).filter(search).all()
+    search = tbls.Agents.Prototype == fac_t
+    return session.query(tbls.Agents).filter(search)
 
-def agentdeaths(session):
-    """returns a list of entries in the AgentDeaths table
-    """
-    return tbls.AgentDeaths
-
-def enterDate(session, agent):
-    """returns the Cyclus date that a specific agent entered the simulation"""
-    return agent.EnterDate
-
-def leaveDate(session, agent, agentdeaths):
-    """returns the Cyclus date that a specific agent left the simulation"""
-    search = agentdeaths.AgentID == agent.ID
-    result = session.query(agentdeaths).filter(search).all()
-    assert len(result) == 1
-    return result[0].DeathDate
-
-def nFacs(session, agents, time):
+def nFacs(session, fac_t, time):
     """returns the number of agents of a given type at a given time
     """
-    n = 0
-    for agent in agents:
-        if enterDate(session, agent) <= time \
-                and leaveDate(session, agent, agentdeaths(session)) > time:
-            n += 1
-    return n
+    search = tbls.Agents.EnterDate <= time
+    entry_rows = qAgents(session, fac_t).filter(search).all()
+    entry_ids = set(row.ID for row in entry_rows)
+
+    search = tbls.AgentDeaths.DeathDate > time
+    exit_rows = session.query(tbls.AgentDeaths).filter(search).all()
+    exit_ids = set(row.AgentID for row in exit_rows)
+
+    return len(entry_ids & exit_ids)
             
-def nFacsInRange(session, agents, start, end):
+def nFacsInRange(session, fac_t, start, end):
     """returns a list of the number of agents at each time step given a starting
     and ending time step
     """
-    return [nFacs(session, agents, start + i) for i in range(end - start)]
+    return [nFacs(session, fac_t, start + i) for i in range(end - start)]
 
 def startMonth(session, simid):
     search = tbls.SimulationTimeInfo.SimId == simid
