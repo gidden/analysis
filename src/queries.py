@@ -17,12 +17,12 @@ def nFacs(session, fac_t, startTime, endTime = None):
     search = tbls.Agents.EnterDate <= endTime
     entry_rows = qAgents(session, fac_t).filter(search).all()
     entry_ids = set(row.ID for row in entry_rows)
+    assert len(entry_rows) == len(entry_ids)
 
-    search = tbls.AgentDeaths.DeathDate > startTime
-    exit_rows = session.query(tbls.AgentDeaths).filter(search).all()
-    exit_ids = set(row.AgentID for row in exit_rows)
-
-    return len(entry_ids & exit_ids)
+    search1 = tbls.AgentDeaths.DeathDate > startTime
+    search2 = tbls.AgentDeaths.AgentID.in_(entry_ids)
+    result = session.query(tbls.AgentDeaths).filter(search1).filter(search2).all()
+    return len(result)
             
 def nFacsInRange(session, fac_t, start, end, byYear = False):
     """returns a list of the number of agents at each time step given a starting
