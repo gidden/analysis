@@ -1,48 +1,62 @@
 import tables as tbls
-
 import helpers as h
-
-def qAgents(session, fac_t):
-    """returns a query of entries in the Agents table given the name of an
-    Agent's prototype
-    """
-    search = tbls.Agents.Prototype == fac_t
-    return session.query(tbls.Agents).filter(search)
-
+from sqlalchemy import func
+        
 def nFacs(session, fac_t, startTime, endTime = None):
     """returns the number of agents of a given type at a given time
     """
     if endTime is None: endTime = startTime
 
-    search = tbls.Agents.EnterDate <= endTime
-    entry_rows = qAgents(session, fac_t).filter(search).all()
+    f1 = tbls.Agents.Prototype == fac_t
+    f2 = tbls.Agents.EnterDate <= endTime
+    entry_rows = session.query(tbls.Agents).filter(f1).filter(f2).all()
     entry_ids = set(row.ID for row in entry_rows)
+    assert len(entry_rows) == len(entry_ids)
+    
+    f1 = tbls.AgentDeaths.DeathDate >= startTime # if death == start, its still in the sim at that point
+    f2 = tbls.AgentDeaths.AgentID.in_(entry_ids)
+    result = session.query(tbls.AgentDeaths).filter(f1).filter(f2).all()
+    return len(result)
 
-    search = tbls.AgentDeaths.DeathDate > startTime
-    exit_rows = session.query(tbls.AgentDeaths).filter(search).all()
-    exit_ids = set(row.AgentID for row in exit_rows)
-
-    return len(entry_ids & exit_ids)
-            
-def nFacsInRange(session, fac_t, start, end, byYear = False):
-    """returns a list of the number of agents at each time step given a starting
-    and ending time step
+def materialFlow(session, fac_t, commod_t, startTime, endTime = None, \
+                     direction = "in"):
+    """returns the flow of a class of material into or out of a facility class
+    over a given time range
     """
-    if byYear:
-        years = h.getYearPoints(start, end)
-        return [nFacs(session, fac_t, year.startMonth, year.endMonth) for year in years]
+    if endTime is None: endTime = startTime
+    span = range(startTime, endTime + 1)
+
+    f = tbls.Agents.Prototype == fac_t
+    agent_rows = session.query(tbls.Agents).filter(f).all()
+    agent_ids = set(row.ID for row in agent_rows)
+    assert len(agent_rows) == len(agent_ids) > 0
+
+    if direction is "in": 
+        f1 = tbls.Transactions.ReceiverID.in_(agent_ids)
     else:
-        return [nFacs(session, fac_t, start + i) for i in range(end - start + 1)]
-                      
+        f1 = tbls.Transactions.SenderID.in_(agent_ids)
+    f2 = tbls.Transactions.Time.in_(span)
+    f3 = tbls.Transactions.Commodity == commod_t
+    transactions = session.query(tbls.Transactions)\
+        .filter(f1).filter(f2).filter(f3).all()
+    trans_ids = set(row.ID for row in transactions)
+    assert len(transactions) == len(trans_ids)
+    
+    if len(trans_ids) == 0:
+        return 0.0
+    else:
+        fil = tbls.TransactedResources.TransactionID.in_(trans_ids)
+        fun = func.sum(tbls.TransactedResources.Quantity)
+        return session.query(fun).filter(fil).scalar()
 
 def startMonth(session, simid):
-    search = tbls.SimulationTimeInfo.SimId == simid
-    result = session.query(tbls.SimulationTimeInfo).filter(search).all()
+    f = tbls.SimulationTimeInfo.SimId == simid
+    result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].SimulationStart
 
 def endMonth(session, simid):
-    search = tbls.SimulationTimeInfo.SimId == simid
-    result = session.query(tbls.SimulationTimeInfo).filter(search).all()
+    f = tbls.SimulationTimeInfo.SimId == simid
+    result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].Duration
