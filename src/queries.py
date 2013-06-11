@@ -4,7 +4,7 @@ def agents(session, name):
     """returns a list of entries in the Agents table given the name of an
     Agent's prototype
     """
-    search = tbls.Agents.Prototype.like(name)
+    search = tbls.Agents.Prototype == name
     return session.query(tbls.Agents).filter(search).all()
 
 def agentdeaths(session):
@@ -18,7 +18,7 @@ def enterDate(session, agent):
 
 def leaveDate(session, agent, agentdeaths):
     """returns the Cyclus date that a specific agent left the simulation"""
-    search = agentdeaths.AgentID.like(agent.ID)
+    search = agentdeaths.AgentID == agent.ID
     result = session.query(agentdeaths).filter(search).all()
     assert len(result) == 1
     return result[0].DeathDate
@@ -38,3 +38,15 @@ def nFacsInRange(session, agents, start, end):
     and ending time step
     """
     return [nFacs(session, agents, start + i) for i in range(end - start)]
+
+def startMonth(session, simid):
+    search = tbls.SimulationTimeInfo.SimId == simid
+    result = session.query(tbls.SimulationTimeInfo).filter(search).all()
+    assert len(result) == 1
+    return result[0].SimulationStart
+
+def endMonth(session, simid):
+    search = tbls.SimulationTimeInfo.SimId == simid
+    result = session.query(tbls.SimulationTimeInfo).filter(search).all()
+    assert len(result) == 1
+    return result[0].Duration
