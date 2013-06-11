@@ -28,7 +28,7 @@ class ResourceTypes(object):
 class SimulationIDs(object):
     pass
 
-class SimulationTime(object):
+class SimulationTimeInfo(object):
     pass
 
 class TransactedResources(object):
@@ -105,7 +105,7 @@ def getTableMaps(metadata, enrichment = False):
         
     # simulation time
     name = 'simulationtimeinfo'
-    obj = SimulationTime
+    obj = SimulationTimeInfo
     table = sql.Table(name, \
                       metadata, \
                       sql.Column("SimId", sql.Integer, primary_key=True), \
