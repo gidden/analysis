@@ -13,7 +13,7 @@ def nFacs(session, fac_t, startTime, endTime = None):
     entry_ids = set(row.ID for row in entry_rows)
     assert len(entry_rows) == len(entry_ids)
     
-    f1 = tbls.AgentDeaths.DeathDate > startTime
+    f1 = tbls.AgentDeaths.DeathDate >= startTime # if death == start, its still in the sim at that point
     f2 = tbls.AgentDeaths.AgentID.in_(entry_ids)
     result = session.query(tbls.AgentDeaths).filter(f1).filter(f2).all()
     return len(result)
