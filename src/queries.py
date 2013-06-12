@@ -61,11 +61,13 @@ def SWU(session, startTime, endTime = None, agentID = None):
     
     fun = func.sum(tbls.Enrichments.SWU)
     f1 = tbls.Enrichments.Time.in_(span)
+    
     if agentID is not None:
         f2 = tbls.Enrichments.ID == agentID
-        return session.query(fun).filter(f1).filter(f2).scalar()
+        val = session.query(fun).filter(f1).filter(f2).scalar()
     else:
-        return session.query(fun).filter(f1).scalar()
+        val =session.query(fun).filter(f1).scalar()
+    return float(val)
 
 def natlU(session, startTime, endTime = None, agentID = None):
     """returns natural uranium usage as reported in the Enrichments
@@ -81,9 +83,10 @@ def natlU(session, startTime, endTime = None, agentID = None):
     f1 = tbls.Enrichments.Time.in_(span)
     if agentID is not None:
         f2 = tbls.Enrichments.ID == agentID
-        return session.query(fun).filter(f1).filter(f2).scalar()
+        val = session.query(fun).filter(f1).filter(f2).scalar()
     else:
-        return session.query(fun).filter(f1).scalar()
+        val = session.query(fun).filter(f1).scalar()
+    return float(val)
     
 def startMonth(session, simid):
     f = tbls.SimulationTimeInfo.SimId == simid
