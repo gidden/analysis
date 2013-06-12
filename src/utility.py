@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.orm import mapper, clear_mappers, sessionmaker
 
 import tables as tbls
@@ -6,9 +6,11 @@ import tables as tbls
 def loadSession(dbPath):
     clear_mappers()
     engine = create_engine('sqlite:///%s' % dbPath) #, echo=True)
-    metadata = MetaData(engine)
-    tables = tbls.getTableMaps(metadata)
-    for value in tables.itervalues():
+    
+    tables = tbls.getTableMaps(engine)
+
+    for key, value in tables.iteritems():
+        print key
         mapper(value.obj, value.table)
 
     Session = sessionmaker(bind=engine)

@@ -13,7 +13,7 @@ class Agents(object):
 class AgentDeaths(object):
     pass
 
-class Enrichment(object):
+class Enrichments(object):
     pass 
 
 class IsotopicStates(object):
@@ -37,7 +37,7 @@ class TransactedResources(object):
 class Transactions(object):
     pass
 
-def getTableMaps(metadata, enrichment = False):
+def getTableMaps(engine):
     """ This is the main configure function for reading the cyclus db. If the
     database structure changes, the changes must be reflected here.
 
@@ -46,39 +46,44 @@ def getTableMaps(metadata, enrichment = False):
     read tables from the database using ORM.
     """
     tables = {}
+    metadata = sql.MetaData(engine)
+    dialect = engine.dialect
     
     # agents
     name = 'agents'
-    obj = Agents
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("ID", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = Agents
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("ID", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
 
     # agent deaths
     name = 'agentdeaths'
-    obj = AgentDeaths
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("AgentID", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = AgentDeaths
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("AgentID", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
         
     # isotopic states
     name = 'isotopicstates'
-    obj = IsotopicStates
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("ID", sql.Integer, primary_key=True), \
-                      sql.Column("IsoID", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = IsotopicStates
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("ID", sql.Integer, primary_key=True), \
+                              sql.Column("IsoID", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
 
-    if enrichment:
-        # enrichment (an optional table)
-        name = 'enrichment'
-        obj = Enrichment
+    # enrichment (an optional table)
+    name = 'enrichments'
+    if dialect.has_table(engine.connect(), name):
+        obj = Enrichments
         table = sql.Table(name, \
                               metadata, \
                               sql.Column("Type", sql.Integer, primary_key=True), \
@@ -87,49 +92,54 @@ def getTableMaps(metadata, enrichment = False):
 
     # resourcetypes
     name = 'resourcetypes'
-    obj = ResourceTypes
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("Type", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = ResourceTypes
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("Type", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
     
     # sim ids
     name = 'simulationids'
-    obj = SimulationIDs
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("SimId", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = SimulationIDs
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("SimId", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
         
     # simulation time
     name = 'simulationtimeinfo'
-    obj = SimulationTimeInfo
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("SimId", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = SimulationTimeInfo
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("SimId", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
 
     # transactions
     name = 'transactions'
-    obj = Transactions
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("ID", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = Transactions
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("ID", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
 
     # transactedresources
     name = 'transactedresources'
-    obj = TransactedResources
-    table = sql.Table(name, \
-                      metadata, \
-                      sql.Column("ResourceID", sql.Integer, primary_key=True), \
-                      sql.Column("TransactionID", sql.Integer, primary_key=True), \
-                      autoload=True)
-    tables[name] = TableMapping(obj, table)
+    if dialect.has_table(engine.connect(), name):
+        obj = TransactedResources
+        table = sql.Table(name, \
+                              metadata, \
+                              sql.Column("ResourceID", sql.Integer, primary_key=True), \
+                              sql.Column("TransactionID", sql.Integer, primary_key=True), \
+                              autoload=True)
+        tables[name] = TableMapping(obj, table)
 
     return tables
 
