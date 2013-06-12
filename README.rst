@@ -18,7 +18,7 @@ Connection to the Database
 ==========================
 
 The analysis tools use SQLAlchemy's `Object Relational Mapping
-(ORM)<http://docs.sqlalchemy.org/en/rel_0_8/orm/tutorial.html>`_ interface to
+(ORM) <http://docs.sqlalchemy.org/en/rel_0_8/orm/tutorial.html>`_ interface to
 assist in making querying the *Cyclus* database easier. Querying the database
 requires an active session, which can be accessed via:
 
