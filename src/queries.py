@@ -57,7 +57,7 @@ def SWU(session, startTime, endTime = None, agentID = None):
     provided, only SWU usaged related to that agent is included.
     """
     if endTime is None: endTime = startTime
-    span = range(startTime, endTime)
+    span = range(startTime, endTime + 1)
     
     fun = func.sum(tbls.Enrichments.SWU)
     f1 = tbls.Enrichments.Time.in_(span)
@@ -75,7 +75,7 @@ def natlU(session, startTime, endTime = None, agentID = None):
     to that agent is included.
     """
     if endTime is None: endTime = startTime
-    span = range(startTime, endTime)
+    span = range(startTime, endTime + 1)
     
     fun = func.sum(tbls.Enrichments.Natural_Uranium)
     f1 = tbls.Enrichments.Time.in_(span)

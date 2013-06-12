@@ -10,7 +10,6 @@ def loadSession(dbPath):
     tables = tbls.getTableMaps(engine)
 
     for key, value in tables.iteritems():
-        print key
         mapper(value.obj, value.table)
 
     Session = sessionmaker(bind=engine)
