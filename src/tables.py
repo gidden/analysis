@@ -48,10 +48,11 @@ def getTableMaps(engine):
     tables = {}
     metadata = sql.MetaData(engine)
     dialect = engine.dialect
-    
+    connection = engine.connect()
+
     # agents
     name = 'agents'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = Agents
         table = sql.Table(name, \
                               metadata, \
@@ -61,7 +62,7 @@ def getTableMaps(engine):
 
     # agent deaths
     name = 'agentdeaths'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = AgentDeaths
         table = sql.Table(name, \
                               metadata, \
@@ -71,7 +72,7 @@ def getTableMaps(engine):
         
     # isotopic states
     name = 'isotopicstates'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = IsotopicStates
         table = sql.Table(name, \
                               metadata, \
@@ -82,7 +83,7 @@ def getTableMaps(engine):
 
     # enrichment (an optional table)
     name = 'enrichments'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = Enrichments
         table = sql.Table(name, \
                               metadata, \
@@ -92,7 +93,7 @@ def getTableMaps(engine):
 
     # resourcetypes
     name = 'resourcetypes'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = ResourceTypes
         table = sql.Table(name, \
                               metadata, \
@@ -102,7 +103,7 @@ def getTableMaps(engine):
     
     # sim ids
     name = 'simulationids'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = SimulationIDs
         table = sql.Table(name, \
                               metadata, \
@@ -112,7 +113,7 @@ def getTableMaps(engine):
         
     # simulation time
     name = 'simulationtimeinfo'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = SimulationTimeInfo
         table = sql.Table(name, \
                               metadata, \
@@ -122,7 +123,7 @@ def getTableMaps(engine):
 
     # transactions
     name = 'transactions'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = Transactions
         table = sql.Table(name, \
                               metadata, \
@@ -132,7 +133,7 @@ def getTableMaps(engine):
 
     # transactedresources
     name = 'transactedresources'
-    if dialect.has_table(engine.connect(), name):
+    if dialect.has_table(connection, name):
         obj = TransactedResources
         table = sql.Table(name, \
                               metadata, \
