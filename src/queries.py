@@ -23,7 +23,8 @@ def materialFlow(session, fac_t, commod_t, startTime, endTime = None, \
     """returns the flow of a class of material into or out of a facility class
     over a given time range
     """
-    if endTime is None: endTime = startTime
+    if endTime is None: 
+        endTime = startTime
     span = range(startTime, endTime + 1)
 
     f = tbls.Agents.Prototype == fac_t
@@ -49,14 +50,58 @@ def materialFlow(session, fac_t, commod_t, startTime, endTime = None, \
         fun = func.sum(tbls.TransactedResources.Quantity)
         return session.query(fun).filter(fil).scalar()
 
+def SWU(session, startTime, endTime = None, agentID = None):
+    """returns SWU usage as reported in the Enrichments table. Optional
+    arguments include an ending time period and an agentID. If an ending time is
+    provided, the SWU usage is totaled over the time period. If an agentID is
+    provided, only SWU usaged related to that agent is included.
+    """
+    if endTime is None: endTime = startTime
+    span = range(startTime, endTime + 1)
+    
+    fun = func.sum(tbls.Enrichments.SWU)
+    f1 = tbls.Enrichments.Time.in_(span)
+    
+    if agentID is not None:
+        f2 = tbls.Enrichments.ID == agentID
+        val = session.query(fun).filter(f1).filter(f2).scalar()
+    else:
+        val =session.query(fun).filter(f1).scalar()
+    return float(val)
+
+def natlU(session, startTime, endTime = None, agentID = None):
+    """returns natural uranium usage as reported in the Enrichments
+    table. Optional arguments include an ending time period and an agentID. If
+    an ending time is provided, the natural uranium usage is totaled over the
+    time period. If an agentID is provided, only natural uranium usaged related
+    to that agent is included.
+    """
+    if endTime is None: endTime = startTime
+    span = range(startTime, endTime + 1)
+    
+    fun = func.sum(tbls.Enrichments.Natural_Uranium)
+    f1 = tbls.Enrichments.Time.in_(span)
+    if agentID is not None:
+        f2 = tbls.Enrichments.ID == agentID
+        val = session.query(fun).filter(f1).filter(f2).scalar()
+    else:
+        val = session.query(fun).filter(f1).scalar()
+    return float(val)
+    
 def startMonth(session, simid):
     f = tbls.SimulationTimeInfo.SimId == simid
     result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].SimulationStart
 
-def endMonth(session, simid):
+def nMonths(session, simid):
     f = tbls.SimulationTimeInfo.SimId == simid
     result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].Duration
+
+
+def endMonth(session, simid):
+    # note -1 because we begin month indexing at 0
+    return nMonths(session, simid) - startMonth(session, simid) - 1
+    

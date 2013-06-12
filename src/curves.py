@@ -11,8 +11,8 @@ def growthCurve(session, fac_t, startMonth, endMonth, inYears = False):
         return [q.nFacs(session, fac_t, year.startMonth, year.endMonth) \
                     for year in years]
     else:
-        return [q.nFacs(session, fac_t, startMonth + i) \
-                    for i in range(endMonth - startMonth)]
+        return [q.nFacs(session, fac_t, month) \
+                    for month in range(startMonth, endMonth + 1)]
 
 def materialFlowCurve(session, fac_t, commod_t, startMonth, endMonth, \
                           direction = "in", inYears = False):
@@ -28,16 +28,40 @@ def materialFlowCurve(session, fac_t, commod_t, startMonth, endMonth, \
                     for year in years]
     else:
         return [q.materialFlow(session, fac_t, commod_t, \
-                                   startMonth + i, direction = direction) \
-                    for i in range(endMonth - startMonth)]
+                                   month, direction = direction) \
+                    for month in range(startMonth, endMonth + 1)]
 
 def materialInventoryCurve(session, fac_t, commod_t, startMonth, endMonth, \
-                               byYear = False):
+                               inYears = False):
     """returns the inventory of materials of a given facility class and
     commodity class either by month or by year
     """
     outof = materialFlowCurve(session, fac_t, commod_t, startMonth, endMonth, \
-                                  direction = "out", byYear = byYear)
+                                  direction = "out", inYears = inYears)
     into = materialFlowCurve(session, fac_t, commod_t, startMonth, endMonth, \
-                                  direction = "in", byYear = byYear)
+                                  direction = "in", inYears = inYears)
     return outof - into
+
+def SWUCurve(session, startMonth, endMonth, inYears = False):
+    """returns the a list of amount of SWU used at each time point by month or
+    by year
+    """    
+    if inYears:
+        years = h.getYearPoints(startMonth, endMonth)
+        return [q.SWU(session, year.startMonth, endTime = year.endMonth) \
+                    for year in years]
+    else:
+        return [q.SWU(session, month) \
+                    for month in range(startMonth, endMonth + 1)]
+
+def natlUCurve(session, startMonth, endMonth, inYears = False):
+    """returns the a list of amount of natural uranium used at each time point
+    by month or by year
+    """    
+    if inYears:
+        years = h.getYearPoints(startMonth, endMonth)
+        return [q.natlU(session, year.startMonth, endTime = year.endMonth) \
+                    for year in years]
+    else:
+        return [q.natlU(session, month) \
+                    for month in range(startMonth, endMonth + 1)]
