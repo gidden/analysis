@@ -21,9 +21,9 @@ The analysis tools use SQLAlchemy's Object Relational Mapping (ORM) interface to
 assist in making querying the *Cyclus* database easier. Querying the database
 requires an active session, which can be accessed via:
 
-```python
-import utility		
-dbPath = 'some_relative_path_to_the_database'
-session = utility.loadSession(dbPath)
-```
+.. code-block:: python
+
+	import utility
+	dbPath = 'some_relative_path_to_the_database'
+	session = utility.loadSession(dbPath)
 
