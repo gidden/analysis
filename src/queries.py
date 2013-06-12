@@ -23,7 +23,8 @@ def materialFlow(session, fac_t, commod_t, startTime, endTime = None, \
     """returns the flow of a class of material into or out of a facility class
     over a given time range
     """
-    if endTime is None: endTime = startTime
+    if endTime is None: 
+        endTime = startTime
     span = range(startTime, endTime + 1)
 
     f = tbls.Agents.Prototype == fac_t
@@ -48,15 +49,21 @@ def materialFlow(session, fac_t, commod_t, startTime, endTime = None, \
         fil = tbls.TransactedResources.TransactionID.in_(trans_ids)
         fun = func.sum(tbls.TransactedResources.Quantity)
         return session.query(fun).filter(fil).scalar()
-
+    
 def startMonth(session, simid):
     f = tbls.SimulationTimeInfo.SimId == simid
     result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].SimulationStart
 
-def endMonth(session, simid):
+def nMonths(session, simid):
     f = tbls.SimulationTimeInfo.SimId == simid
     result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].Duration
+
+
+def endMonth(session, simid):
+    # note -1 because we begin month indexing at 0
+    return nMonths(session, simid) - startMonth(session, simid) - 1
+    
