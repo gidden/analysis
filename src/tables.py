@@ -81,7 +81,7 @@ def getTableMaps(engine):
                               autoload=True)
         tables[name] = TableMapping(obj, table)
 
-    # enrichment (an optional table)
+    # enrichment
     name = 'enrichments'
     if dialect.has_table(connection, name):
         obj = Enrichments
@@ -91,7 +91,7 @@ def getTableMaps(engine):
                               autoload=True)
         tables[name] = TableMapping(obj, table)
 
-    # resourcetypes
+    # resource types
     name = 'resourcetypes'
     if dialect.has_table(connection, name):
         obj = ResourceTypes
@@ -131,7 +131,7 @@ def getTableMaps(engine):
                               autoload=True)
         tables[name] = TableMapping(obj, table)
 
-    # transactedresources
+    # transacted resources
     name = 'transactedresources'
     if dialect.has_table(connection, name):
         obj = TransactedResources

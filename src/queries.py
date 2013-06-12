@@ -1,5 +1,4 @@
 import tables as tbls
-import helpers as h
 from sqlalchemy import func
         
 def nFacs(session, fac_t, startTime, endTime = None):
@@ -88,20 +87,27 @@ def natlU(session, startTime, endTime = None, agentID = None):
         val = session.query(fun).filter(f1).scalar()
     return float(val)
     
-def startMonth(session, simid):
+def startMonth(session, simid = 1):
+    """returns the index of the first month of the simulation (note month
+    indicies start with 0).
+    """
     f = tbls.SimulationTimeInfo.SimId == simid
     result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].SimulationStart
 
-def nMonths(session, simid):
+def nMonths(session, simid = 1):
+    """returns the number of months in the simulation"""
     f = tbls.SimulationTimeInfo.SimId == simid
     result = session.query(tbls.SimulationTimeInfo).filter(f).all()
     assert len(result) == 1
     return result[0].Duration
 
 
-def endMonth(session, simid):
+def endMonth(session, simid = 1):
+    """returns the index of the last month of the simulation (note month
+    indicies start with 0).
+    """
     # note -1 because we begin month indexing at 0
     return nMonths(session, simid) - startMonth(session, simid) - 1
     
