@@ -1,13 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import mapper, clear_mappers, sessionmaker
 
-import tables as tbls
+from tables import getTableMaps as getTables
 
 def loadSession(dbPath):
     clear_mappers()
     engine = create_engine('sqlite:///%s' % dbPath) #, echo=True)
     
-    tables = tbls.getTableMaps(engine)
+    tables = getTables(engine)
 
     for key, value in tables.iteritems():
         mapper(value.obj, value.table)
