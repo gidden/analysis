@@ -13,10 +13,11 @@ def nFacs(session, fac_t, startTime, endTime = None):
     assert len(entry_rows) == len(entry_ids)
     
     f1 = tbls.AgentDeaths.DeathDate >= startTime # if death == start, its still in the sim at that point
-    f2 = tbls.AgentDeaths.AgentID.in_(entry_ids)
-    result = session.query(tbls.AgentDeaths).filter(f1).filter(f2).all()
-    return len(result)
-
+    exit_rows = session.query(tbls.AgentDeaths).filter(f1).all()
+    count = 0
+    exit_ids = set(row.AgentID for row in exit_rows)
+    return len(entry_ids.intersection(exit_ids)) # set intersection
+            
 def materialFlow(session, fac_t, commod_t, startTime, endTime = None, \
                      direction = "in"):
     """returns the flow of a class of material into or out of a facility class
