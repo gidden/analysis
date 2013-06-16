@@ -73,7 +73,7 @@ if __name__=="__main__":
 
     import matplotlib.pyplot as plt
     
-    filename = 'vision_low.csv'
+    filename = 'vision_low/vision_low.csv'
     
     output = analyze_vision_output(filename)
     
